@@ -1,14 +1,13 @@
 package com.example.imageapp.ui
 
-import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log.e
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.imageapp.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.imageapp.databinding.ActivityImageBinding
 import com.example.imageapp.di.Resource
 import com.example.imageapp.models.ImageModel
@@ -37,19 +36,23 @@ class ImageActivity : AppCompatActivity() {
         viewModel.performFetchImageStatus.observe(this, Observer {
             when(it.status){
                 Resource.Status.LOADING -> {
+                    e("setObservers", "Loading")
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 Resource.Status.EMPTY -> {
+                    e("setObservers", "Empty")
                     binding.progressBar.visibility = View.GONE
                     binding.emptyDialog.visibility = View.VISIBLE
                 }
                 Resource.Status.SUCCESS -> {
+                    e("setObservers", "Success")
                     binding.progressBar.visibility = View.GONE
                     binding.emptyDialog.visibility = View.GONE
                     ImageList = it.data
                     setUpRecyclerView()
                 }
                 Resource.Status.ERROR -> {
+                    e("setObservers", "Error")
                     binding.progressBar.visibility = View.GONE
                     binding.emptyDialog.visibility = View.VISIBLE
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
@@ -61,7 +64,10 @@ class ImageActivity : AppCompatActivity() {
     }
 
     private fun setUpRecyclerView() {
-        val adapter = ImageAdapter(this, ImageList!!.data)
+        e("setUpRecyclerView", ImageList.toString())
+        val adapter = ImageAdapter( ImageList!!)
+        binding.searchResultRv.setHasFixedSize(true)
+        binding.searchResultRv.layoutManager = LinearLayoutManager(this)
         binding.searchResultRv.adapter = adapter
     }
 
