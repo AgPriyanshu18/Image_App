@@ -65,10 +65,16 @@ class ImageActivity : AppCompatActivity() {
 
     private fun setUpRecyclerView() {
         e("setUpRecyclerView", ImageList.toString())
-        val adapter = ImageAdapter( ImageList!!)
+        val adapter = ImageAdapter( ImageList!!, object : ImageAdapter.onClickListener{
+            override fun onClick(position: Int) {
+                //TODO
+            }
+        })
         binding.searchResultRv.setHasFixedSize(true)
         binding.searchResultRv.layoutManager = LinearLayoutManager(this)
         binding.searchResultRv.adapter = adapter
     }
+
+
 
 }

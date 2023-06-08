@@ -19,5 +19,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,ImageActivity::class.java)
             startActivity(intent)
         }
+
+        binding.button.setOnClickListener {
+            val intent = Intent(this,SecondActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

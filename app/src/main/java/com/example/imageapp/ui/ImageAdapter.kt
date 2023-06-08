@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.imageapp.databinding.ItemLayoutBinding
 import com.example.imageapp.models.ImageModelItem
 
-class ImageAdapter(private var imagelist: List<ImageModelItem>) :
+class ImageAdapter(private var imagelist: List<ImageModelItem> , private var clickListener: onClickListener ) :
         RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     class ImageViewHolder(binding : ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         val image = binding.imageView
@@ -32,6 +32,14 @@ class ImageAdapter(private var imagelist: List<ImageModelItem>) :
                 .centerCrop()
                 .into(holder.image)
         holder.name.text = model.title
+
+        holder.itemView.setOnClickListener {
+            clickListener?.onClick(position)
+        }
+    }
+
+    interface onClickListener{
+        fun onClick(position: Int)
     }
 
 }
